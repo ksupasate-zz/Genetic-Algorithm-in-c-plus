@@ -1,5 +1,5 @@
 #include <stdio.h>
-void main(){
+int main(){
     printf("he");
     printf("Hello world");
 
@@ -8,5 +8,5 @@ void main(){
     printf("8;pr6T");
     printf("EIEI");
 
-    printf("hi");
+    return 0;
 }
