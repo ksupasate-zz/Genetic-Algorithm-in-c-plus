@@ -6,7 +6,7 @@ main(){
 
 
     printf("8;pr6T");
-
+    printf("EIEI");
 
     printf("hi");
 }
