@@ -2,11 +2,5 @@
 main(){
     printf("he");
     printf("Hello world");
-
-
-
-
-
-
     printf("hi");
 }
