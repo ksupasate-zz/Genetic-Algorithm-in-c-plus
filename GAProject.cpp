@@ -1,12 +1,6 @@
-#include <stdio.h>
+#include <iostream>
+using namespace std;
 int main(){
-    printf("he");
-    printf("Hello world");
-
-
-
-    printf("8;pr6T");
-    printf("EIEI");
-
+    cout << "Hello World"
     return 0;
 }
