@@ -2,7 +2,7 @@
 #include <fstream>
 #include <time.h>
 using namespace std;
-
+const int pop = 10;
 struct data{
     int value,weight;
 };
@@ -32,27 +32,33 @@ void read_file(int *itemN)
     inFile.close();
 }
 
-void random_choice(int *itemN)
+void random_choice(int itemN, int *item[pop])
 {
     int randombi;
-    for (int j = 0; j < 10; j++)
+    for (int j = 0; j < pop; j++)
     {
         cout << j+1 << ".) ";
         srand (j+time(NULL));
-        for(int i = 0; i < *itemN; i++){
+        for(int i = 0; i < itemN; i++){
             cout << rand() % 2;
         }
         cout << "\n";
     }
 }
 
-
+// void fitness_test(){
+//     for(int i = 0; i < pop; i++){
+//         for(int j = 0; j < itemN; j++){
+//             if()
+//         }    
+//     }
+// }
 
 int main(){  
     int itemN;
     read_file(&itemN);
-    int item[10][itemN];
-    random_choice(&itemN);
+    int item[pop][itemN];
+    random_choice(itemN,item);
     cout << itemN;
     return 0;
 }
