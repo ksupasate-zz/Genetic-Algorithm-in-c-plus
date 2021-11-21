@@ -7,32 +7,30 @@ struct data{
 
 void read_file()
 {
-    struct data;
+    struct data Data[5000];
     int sum = 0;
     int x;
     ifstream inFile;
     inFile.open("Example Set.txt");
 
     if (!inFile) {
-    cerr << "Unable to open file datafile.txt";
-    exit(1);   // call system to stop
+        cerr << "Unable to open file datafile.txt";
+        exit(1);   // call system to stop
     }
-
-    while (inFile >> x) {
-        sum = sum + 1;
+    int itemN,MaxW;
+    inFile >> itemN;
+    inFile >> MaxW;
+    int i = 0;
+    while (inFile) {
+        inFile >> Data[i].value >> Data[i++].weight;
     }
-    sum = sum/2;
-
-    for(int i = 0; i < sum; i++){
-        cin >> "%d %d\n",data[i].value,data[i].weight;
+    for(i = 0; i < itemN; i++){
+        cout << Data[i].value << " " << Data[i].weight << "\n";
     }
-
     inFile.close();
-    cout << "Sum = " << sum << endl; 
 }
 
 int main(){   
-    cout << "Hello World";
     read_file();
     return 0;
 }
