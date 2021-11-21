@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <time.h>
 using namespace std;
 struct data{
     int value,weight;
@@ -30,7 +31,21 @@ void read_file()
     inFile.close();
 }
 
+void random_choice()
+{
+    int randombi;
+        srand (time(NULL));
+    for(int i = 0; i < 10; i++){
+        cout << rand() % 2;
+    }
+    cout << "\n";
+    
+   
+}
+
 int main(){   
     read_file();
+    random_choice();
+    random_choice();
     return 0;
 }
