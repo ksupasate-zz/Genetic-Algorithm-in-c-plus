@@ -18,11 +18,11 @@ void read_file()
         exit(1);   // call system to stop
     }
     int itemN,MaxW;
-    inFile >> itemN;
-    inFile >> MaxW;
+    inFile >> itemN >> MaxW;
     int i = 0;
     while (inFile) {
-        inFile >> Data[i].value >> Data[i++].weight;
+        inFile >> Data[i].value >> Data[i].weight;
+        i++;
     }
     for(i = 0; i < itemN; i++){
         cout << Data[i].value << " " << Data[i].weight << "\n";
