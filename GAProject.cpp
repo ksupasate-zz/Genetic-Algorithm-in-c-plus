@@ -64,8 +64,6 @@ int main(){
     int item[pop][itemN];
     for(int timess = 0 ; timess < pop ; timess ++)
         random_choice(itemN, item[timess],timess);
-        
     printData(item[0]);
-    cout << "\n";
     return 0;
 }
