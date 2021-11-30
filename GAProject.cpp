@@ -26,23 +26,27 @@ void read_file(int *itemN)
         inFile >> Data[i].value >> Data[i].weight;
         i++;
     }
-    for(i = 0; i < *itemN; i++){
-        cout << Data[i].value << " " << Data[i].weight << "\n";
-    }
+    // for(i = 0; i < *itemN; i++){
+    //     cout << Data[i].value << " " << Data[i].weight << "\n";
+    // }
     inFile.close();
 }
 
-void random_choice(int itemN, int *item[pop])
-{
-    int randombi;
-    for (int j = 0; j < pop; j++)
-    {
-        cout << j+1 << ".) ";
-        srand (j+time(NULL));
-        for(int i = 0; i < itemN; i++){
-            cout << rand() % 2;
-        }
-        cout << "\n";
+void random_choice(int itemN,int *item,int timess){
+    srand (timess+time(NULL));
+    for(int i = 0 ; i < itemN ; i++){
+        item[i] = rand() % 2;
+        // cout << rand() % 2;
+    }
+    // cout << "\n";
+}
+
+void printData(int *item){
+    int i=0;
+    while(item[i] != '\n'){
+        cout << item[i++];
+        if(i % pop == 0)
+            cout << "\n";
     }
 }
 
@@ -58,7 +62,8 @@ int main(){
     int itemN;
     read_file(&itemN);
     int item[pop][itemN];
-    random_choice(itemN,item);
-    cout << itemN;
+    for(int timess = 0 ; timess < pop ; timess ++)
+        random_choice(itemN, item[timess],timess);
+    printData(item[0]);
     return 0;
 }
