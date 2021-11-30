@@ -2,10 +2,10 @@
 #include <fstream>
 #include <time.h>
 using namespace std;
-int pop = 10,itemN;
+int pop = 10,itemN,MaxW;
 struct data{
-    int value,weight;
-}Data[5000];
+    int value = 0,weight = 0;
+}Data[5000],Score[10];
 
 void read_file(int *itemN)
 {
@@ -18,7 +18,6 @@ void read_file(int *itemN)
         cerr << "Unable to open file datafile.txt";
         exit(1);   // call system to stop
     }
-    int MaxW;
     inFile >> *itemN >> MaxW;
     int i = 0;
     while (inFile) {
@@ -57,6 +56,16 @@ void uniformCross(int *item){
     }
 }
 
+void FittingTest(int *item,int n){
+    for(int i=0 ; i < itemN ; i++){
+        if(item[i]){
+            Score[n].value += Data[i].value;
+            Score[n].weight += Data[i].weight;
+        }
+    }
+    if(Score[n].weight > MaxW)
+        Score[n].value = 0;
+}
 // void fitness_test(){
 //     for(int i = 0; i < pop; i++){
 //         for(int j = 0; j < itemN; j++){
@@ -78,5 +87,10 @@ int main(){
     cout << "\n---------- Uniform Cross ----------\n";
     for(int timess = 0 ; timess < pop ; timess ++)
         printData(item[timess]);
+    cout << "\n---------- Fitting Test ----------\n";    
+    for(int timess = 0 ; timess < pop ; timess ++)
+        FittingTest(item[timess],timess);
+    for(int timess = 0 ; timess < pop ; timess ++)
+        cout << timess+1 << ") Value : " <<Score[timess].value << " Weight : " << Score[timess].weight << "\n";
     return 0;
 }
