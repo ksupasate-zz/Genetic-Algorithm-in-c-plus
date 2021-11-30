@@ -32,7 +32,7 @@ void read_file(int *itemN)
     inFile.close();
 }
 
-void random_choice(int itemN,int *item,int timess){
+void random_choice(int *item,int timess){
     srand (timess+time(NULL));
     for(int i = 0 ; i < itemN ; i++){
         item[i] = rand() % 2;
@@ -59,7 +59,7 @@ int main(){
     read_file(&itemN);
     int item[pop][itemN];
     for(int timess = 0 ; timess < pop ; timess ++)
-        random_choice(itemN, item[timess],timess);
+        random_choice(item[timess],timess);
     for(int timess = 0 ; timess < pop ; timess ++)
         printData(item[timess]);
     return 0;
