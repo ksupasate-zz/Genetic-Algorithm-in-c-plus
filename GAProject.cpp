@@ -47,6 +47,17 @@ void printData(int *item){
     cout << "\n";
 }
 
+void uniformCross(int *item){
+    int temp;
+    for(int j = 0 ; j < itemN ; j++){
+        if(rand()%2){
+            temp = item[j];
+            item[j] = item[j+pop];
+            item[j+pop] = temp;
+        }
+    }
+}
+
 // void fitness_test(){
 //     for(int i = 0; i < pop; i++){
 //         for(int j = 0; j < itemN; j++){
@@ -60,6 +71,12 @@ int main(){
     int item[pop][itemN];
     for(int timess = 0 ; timess < pop ; timess ++)
         random_choice(item[timess],timess);
+    cout << "\n---------- Default Data ----------\n";
+    for(int timess = 0 ; timess < pop ; timess ++)
+        printData(item[timess]);
+    for(int timess = 0 ; timess < pop ; timess += 2)
+        uniformCross(item[timess]);
+    cout << "\n---------- Uniform Cross ----------\n";
     for(int timess = 0 ; timess < pop ; timess ++)
         printData(item[timess]);
     return 0;
