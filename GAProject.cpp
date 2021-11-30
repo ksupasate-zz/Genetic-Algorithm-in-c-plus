@@ -43,8 +43,11 @@ void random_choice(int itemN,int *item,int timess){
 
 void printData(int *item){
     int i=0;
-    while(item[i] != '\n')
+    while(item[i] != '\n'){
         cout << item[i++];
+        if(i % pop == 0)
+            cout << "\n";
+    }
 }
 
 // void fitness_test(){
@@ -61,9 +64,8 @@ int main(){
     int item[pop][itemN];
     for(int timess = 0 ; timess < pop ; timess ++)
         random_choice(itemN, item[timess],timess);
-    for(int timess = 0 ; timess < pop ; timess ++){
-        printData(item[timess]);
-        cout << "\n";
-    }     
+        
+    printData(item[0]);
+    cout << "\n";
     return 0;
 }
