@@ -2,7 +2,7 @@
 #include <fstream>
 #include <time.h>
 using namespace std;
-const int pop = 10;
+int pop = 10,itemN;
 struct data{
     int value,weight;
 };
@@ -42,12 +42,9 @@ void random_choice(int itemN,int *item,int timess){
 }
 
 void printData(int *item){
-    int i=0;
-    while(item[i] != '\n'){
-        cout << item[i++];
-        if(i % pop == 0)
-            cout << "\n";
-    }
+    for(int i=0 ; i < itemN ; i++)
+        cout << item[i];
+    cout << "\n";
 }
 
 // void fitness_test(){
@@ -59,11 +56,11 @@ void printData(int *item){
 // }
 
 int main(){  
-    int itemN;
     read_file(&itemN);
     int item[pop][itemN];
     for(int timess = 0 ; timess < pop ; timess ++)
         random_choice(itemN, item[timess],timess);
-    printData(item[0]);
+    for(int timess = 0 ; timess < pop ; timess ++)
+        printData(item[timess]);
     return 0;
 }
