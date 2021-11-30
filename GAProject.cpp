@@ -5,11 +5,10 @@ using namespace std;
 int pop = 10,itemN;
 struct data{
     int value,weight;
-};
+}Data[5000];
 
 void read_file(int *itemN)
 {
-    struct data Data[5000];
     int sum = 0;
     int x;
     ifstream inFile;
