@@ -2,7 +2,7 @@
 #include <fstream>
 #include <time.h>
 using namespace std;
-int pop = 10;
+const int pop = 10;
 struct data{
     int value,weight;
 };
@@ -26,23 +26,40 @@ void read_file(int *itemN)
         inFile >> Data[i].value >> Data[i].weight;
         i++;
     }
-    for(i = 0; i < *itemN; i++){
-        cout << Data[i].value << " " << Data[i].weight << "\n";
-    }
+    // for(i = 0; i < *itemN; i++){
+    //     cout << Data[i].value << " " << Data[i].weight << "\n";
+    // }
     inFile.close();
 }
 
-void random_choice(int itemN,int *item)
+<<<<<<< HEAD
+void random_choice(int itemN,int *item,int timess)
+{
+    srand (timess+time(NULL));
+    for(int i = 0 ; i < itemN ; i++){
+        item[i] = rand() % 2;
+        // cout << rand() % 2;
+=======
+void random_choice(int itemN, int *item[pop])
 {
     int randombi;
     for (int j = 0; j < pop; j++)
     {
+        cout << j+1 << ".) ";
         srand (j+time(NULL));
-        for(int i = 0 ; i < itemN ; i++){
+        for(int i = 0; i < itemN; i++){
             cout << rand() % 2;
         }
         cout << "\n";
+>>>>>>> 575aad059ae1d9e4f1238174070d0e574a852808
     }
+    // cout << "\n";
+}
+
+void printData(int *item){
+    int i=0;
+    while(item[i] != '\n')
+        cout << item[i++];
 }
 
 // void fitness_test(){
@@ -57,6 +74,16 @@ int main(){
     int itemN;
     read_file(&itemN);
     int item[pop][itemN];
-    random_choice(itemN, item[0]);
+<<<<<<< HEAD
+    for(int timess = 0 ; timess < pop ; timess ++)
+        random_choice(itemN, item[timess],timess);
+    for(int timess = 0 ; timess < pop ; timess ++){
+        printData(item[timess]);
+        cout << "\n";
+    }     
+=======
+    random_choice(itemN,item);
+    cout << itemN;
+>>>>>>> 575aad059ae1d9e4f1238174070d0e574a852808
     return 0;
 }
