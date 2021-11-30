@@ -32,26 +32,11 @@ void read_file(int *itemN)
     inFile.close();
 }
 
-<<<<<<< HEAD
-void random_choice(int itemN,int *item,int timess)
-{
+void random_choice(int itemN,int *item,int timess){
     srand (timess+time(NULL));
     for(int i = 0 ; i < itemN ; i++){
         item[i] = rand() % 2;
         // cout << rand() % 2;
-=======
-void random_choice(int itemN, int *item[pop])
-{
-    int randombi;
-    for (int j = 0; j < pop; j++)
-    {
-        cout << j+1 << ".) ";
-        srand (j+time(NULL));
-        for(int i = 0; i < itemN; i++){
-            cout << rand() % 2;
-        }
-        cout << "\n";
->>>>>>> 575aad059ae1d9e4f1238174070d0e574a852808
     }
     // cout << "\n";
 }
@@ -74,16 +59,11 @@ int main(){
     int itemN;
     read_file(&itemN);
     int item[pop][itemN];
-<<<<<<< HEAD
     for(int timess = 0 ; timess < pop ; timess ++)
         random_choice(itemN, item[timess],timess);
     for(int timess = 0 ; timess < pop ; timess ++){
         printData(item[timess]);
         cout << "\n";
     }     
-=======
-    random_choice(itemN,item);
-    cout << itemN;
->>>>>>> 575aad059ae1d9e4f1238174070d0e574a852808
     return 0;
 }
