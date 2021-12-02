@@ -77,9 +77,7 @@ void FittingTest(int *item,int n){
 // }
 
 bool compareTwoPop(data a, data b){
-    if(a.value >= b.value)
-        return a.value > b.value;
-    return a.value < b.value;
+    return a.value > b.value;
 }
 
 void RankingSelection(data Score[]){
