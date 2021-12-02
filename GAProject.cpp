@@ -92,7 +92,7 @@ int main(){
     int bestone = -1 , count = 0,gen = 1;
     read_file(&itemN);
     int item[pop][itemN];
-    while(count < 10000){
+    while(count < 10){
         // cout << "Generation : " << gen++ << "\n";
 
         for(int timess = 0 ; timess < pop ; timess ++)
@@ -138,6 +138,7 @@ int main(){
             count++;
         }
     }
-    cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight;
+    cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight << "\n Encode : ";
+    printData(item[Score[0].index]);
     return 0;
 }
