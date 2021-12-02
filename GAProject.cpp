@@ -77,12 +77,13 @@ void FittingTest(int *item,int n){
 // }
 
 bool compareTwoPop(data a, data b){
-    if (a.value >= b.value)
+    if(a.value >= b.value)
         return a.value > b.value;
+    return a.value < b.value;
 }
 
 void RankingSelection(data Score[]){
-    sort(Score, Score + pop , compareTwoPop());
+    sort(Score, Score + pop , compareTwoPop);
 }
 
 int main(){  
@@ -97,10 +98,12 @@ int main(){
     for(int timess = 0 ; timess < pop ; timess ++)
         FittingTest(item[timess],timess);
     for(int timess = 0 ; timess < pop ; timess ++)
-        cout << timess+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
+        cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
     
     cout << "\n---------- Ranking Selection ----------\n";
     RankingSelection(Score);
+    for(int timess = 0 ; timess < pop ; timess ++)
+        cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
 
     cout << "\n---------- Uniform Cross ----------\n";
     for(int timess = 0 ; timess < pop ; timess += 2) // Uniform
@@ -111,6 +114,6 @@ int main(){
     for(int timess = 0 ; timess < pop ; timess ++)
         FittingTest(item[timess],timess);
     for(int timess = 0 ; timess < pop ; timess ++)
-        cout << timess+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
+        cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
     return 0;
 }
