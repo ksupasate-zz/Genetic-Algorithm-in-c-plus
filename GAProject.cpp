@@ -106,7 +106,11 @@ int main(){
     RankingSelection(Score);
     for(int timess = 0 ; timess < pop ; timess ++)
         cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
-
+    
+    swap(item[0],item[1]);
+    for(int timess = 0 ; timess < pop ; timess ++)
+        printData(item[timess]);
+    
     cout << "\n---------- Uniform Cross ----------\n";
     for(int timess = 0 ; timess < pop ; timess += 2) // Uniform
         uniformCross(item[timess]);
