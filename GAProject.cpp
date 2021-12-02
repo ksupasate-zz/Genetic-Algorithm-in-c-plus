@@ -3,10 +3,10 @@
 #include <time.h>
 #include <algorithm>
 using namespace std;
-int pop = 10,itemN,MaxW;
+int pop = 50,itemN,MaxW;
 struct data{
     int value = 0,weight = 0,index = -1;
-}Data[5000],Score[10];
+}Data[5000],Score[50];
 
 void read_file(int *itemN)
 {
@@ -46,13 +46,13 @@ void printData(int *item){
     cout << "\n";
 }
 
-void uniformCross(int *item){
+void uniformCross(int *item,int *item2){
     int temp;
     for(int j = 0 ; j < itemN ; j++){
         if(rand()%2){
             temp = item[j];
-            item[j] = item[j+pop];
-            item[j+pop] = temp;
+            item[j] = item2[j];
+            item2[j] = temp;
         }
     }
 }
@@ -89,37 +89,53 @@ void RankingSelection(data Score[]){
 }
 
 int main(){  
+    int bestone = -1 , count = 0;
     read_file(&itemN);
     int item[pop][itemN];
-    for(int timess = 0 ; timess < pop ; timess ++)
-        random_choice(item[timess],timess);
-    cout << "\n---------- Default Data ----------\n";
-    for(int timess = 0 ; timess < pop ; timess ++)
-        printData(item[timess]);
-    cout << "\n---------- Fitting Test ----------\n";  
-    for(int timess = 0 ; timess < pop ; timess ++)
-        FittingTest(item[timess],timess);
-    for(int timess = 0 ; timess < pop ; timess ++)
-        cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
-    
-    cout << "\n---------- Ranking Selection ----------\n";
-    RankingSelection(Score);
-    for(int timess = 0 ; timess < pop ; timess ++)
-        cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
-    
-    swap(item[0],item[1]);
-    for(int timess = 0 ; timess < pop ; timess ++)
-        printData(item[timess]);
-    
-    cout << "\n---------- Uniform Cross ----------\n";
-    for(int timess = 0 ; timess < pop ; timess += 2) // Uniform
-        uniformCross(item[timess]);
-    for(int timess = 0 ; timess < pop ; timess ++)
-        printData(item[timess]);
-    cout << "\n---------- Fitting Test ----------\n";    
-    for(int timess = 0 ; timess < pop ; timess ++)
-        FittingTest(item[timess],timess);
-    for(int timess = 0 ; timess < pop ; timess ++)
-        cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
+    while(count < 100){
+        for(int timess = 0 ; timess < pop ; timess ++)
+            random_choice(item[timess],timess);
+        // cout << "\n---------- Default Data ----------\n";
+        // for(int timess = 0 ; timess < pop ; timess ++)
+        //     printData(item[timess]);
+        // cout << "\n---------- Fitting Test ----------\n";  
+        for(int timess = 0 ; timess < pop ; timess ++)
+            FittingTest(item[timess],timess);
+        // for(int timess = 0 ; timess < pop ; timess ++)
+        //     cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
+        
+        RankingSelection(Score);
+        // cout << "\n---------- Ranking Selection ----------\n";
+        // for(int timess = 0 ; timess < pop ; timess ++)
+        //     cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
+        
+        // cout << "\n---------- Original Ranking -----------\n"; 
+        // for(int timess = 0 ; timess < pop ; timess ++)
+        //     printData(item[timess]);
+
+        // cout << "\n---------- Uniform Cross ----------\n";
+        int RankingStart = pop*2/10;
+        for(int timess = RankingStart ; timess < pop-1 ; timess += 2){ // Uniform
+            uniformCross(item[Score[timess].index],item[Score[timess+1].index]);
+        }
+        // for(int timess = 0 ; timess < pop ; timess++)
+        //     printData(item[timess]);
+            
+        // cout << "\n---------- Fitting Test ----------\n";    
+        for(int timess = 0 ; timess < pop ; timess ++)
+            FittingTest(item[timess],timess);
+        
+        RankingSelection(Score);
+        // for(int timess = 0 ; timess < pop ; timess ++)
+        //     cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
+        
+        if(bestone < Score[0].value){
+            bestone = Score[0].value;
+            count = 0;
+        }else{
+            count++;
+        }
+    }
+    cout << bestone;
     return 0;
 }
