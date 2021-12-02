@@ -58,6 +58,8 @@ void uniformCross(int *item){
 }
 
 void FittingTest(int *item,int n){
+    Score[n].value = 0;
+    Score[n].weight = 0;
     for(int i=0 ; i < itemN ; i++){
         if(item[i]){
             Score[n].value += Data[i].value;
