@@ -3,17 +3,17 @@
 #include <time.h>
 #include <algorithm>
 using namespace std;
-int pop = 1000,itemN,MaxW;
+int pop = 500,itemN,MaxW;
 struct data{
     int value = 0,weight = 0,index = -1;
-}Data[5000],Score[1000];
+}Data[5000],Score[500];
 
 void read_file(int *itemN)
 {
     int sum = 0;
     int x;
     ifstream inFile;
-    inFile.open("Set1.txt");
+    inFile.open("Set3.txt");
 
     if (!inFile) {
         cerr << "Unable to open file datafile.txt";
@@ -35,7 +35,13 @@ void random_choice(int *item,int timess){
     srand (timess+time(NULL));
     int count = 0,temp;
     for(int i = 0 ; i < itemN ; i++){
-        item[i] = rand() % 2;
+        temp = rand() % 2;
+        if(count < pop/40){
+            item[i] = temp;
+            count++;
+        }else{
+            item[i] = 0;
+        }
         // cout << rand() % 2;
     }
     // cout << "\n";
@@ -93,7 +99,7 @@ int main(){
     int bestone = -1 , count = 0,gen = 1;
     read_file(&itemN);
     int item[pop][itemN];
-    while(count < 10 || Score[0].value == 0){
+    while(count < 10){
         // cout << "Generation : " << gen++ << "\n";
 
         for(int timess = 0 ; timess < pop ; timess ++)
