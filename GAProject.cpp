@@ -13,7 +13,7 @@ void read_file(int *itemN)
     int sum = 0;
     int x;
     ifstream inFile;
-    inFile.open("Example Set.txt");
+    inFile.open("Set1.txt");
 
     if (!inFile) {
         cerr << "Unable to open file datafile.txt";
@@ -33,6 +33,7 @@ void read_file(int *itemN)
 
 void random_choice(int *item,int timess){
     srand (timess+time(NULL));
+    int count = 0,temp;
     for(int i = 0 ; i < itemN ; i++){
         item[i] = rand() % 2;
         // cout << rand() % 2;
@@ -92,7 +93,7 @@ int main(){
     int bestone = -1 , count = 0,gen = 1;
     read_file(&itemN);
     int item[pop][itemN];
-    while(count < 10){
+    while(count < 10 || Score[0].value == 0){
         // cout << "Generation : " << gen++ << "\n";
 
         for(int timess = 0 ; timess < pop ; timess ++)
@@ -137,8 +138,11 @@ int main(){
         }else{
             count++;
         }
+        if(Score[0].value == 0)
+            for(int timess = 0 ; timess < pop ; timess ++)
+                random_choice(item[timess],timess);
     }
-    cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight << "\n Encode : ";
+    cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight << "\nEncode : ";
     printData(item[Score[0].index]);
     return 0;
 }
