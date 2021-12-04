@@ -158,8 +158,12 @@ int main(){
                 random_choice(item[timess],timess);
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight << "\nEncode : ";
     printData(item[Score[0].index]);
+=======
+    cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight;
+>>>>>>> parent of aca1520 (Last3)
 =======
     cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight;
 >>>>>>> parent of aca1520 (Last3)
