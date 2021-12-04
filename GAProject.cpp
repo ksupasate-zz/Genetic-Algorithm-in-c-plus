@@ -13,7 +13,11 @@ void read_file(int *itemN)
     int sum = 0;
     int x;
     ifstream inFile;
+<<<<<<< Updated upstream
     inFile.open("Example Set.txt");
+=======
+    inFile.open("Set2.txt");
+>>>>>>> Stashed changes
 
     if (!inFile) {
         cerr << "Unable to open file datafile.txt";
@@ -91,6 +95,7 @@ void RankingSelection(data Score[]){
 int main(){  
     read_file(&itemN);
     int item[pop][itemN];
+<<<<<<< Updated upstream
     for(int timess = 0 ; timess < pop ; timess ++)
         random_choice(item[timess],timess);
     cout << "\n---------- Default Data ----------\n";
@@ -121,5 +126,55 @@ int main(){
         FittingTest(item[timess],timess);
     for(int timess = 0 ; timess < pop ; timess ++)
         cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
+=======
+    while(count < 10){
+        // cout << "Generation : " << gen++ << "\n";
+
+        for(int timess = 0 ; timess < pop ; timess ++)
+            random_choice(item[timess],timess);
+        // cout << "\n---------- Default Data ----------\n";
+        // for(int timess = 0 ; timess < pop ; timess ++)
+        //     printData(item[timess]);
+        // cout << "\n---------- Fitting Test ----------\n";  
+        for(int timess = 0 ; timess < pop ; timess ++)
+            FittingTest(item[timess],timess);
+        // for(int timess = 0 ; timess < pop ; timess ++)
+        //     cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
+        
+        RankingSelection(Score);
+        // cout << "\n---------- Ranking Selection ----------\n";
+        // for(int timess = 0 ; timess < pop ; timess ++)
+        //     cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
+        
+        // cout << "\n---------- Original Ranking -----------\n"; 
+        // for(int timess = 0 ; timess < pop ; timess ++)
+        //     printData(item[timess]);
+
+        // cout << "\n---------- Uniform Cross ----------\n";
+        int RankingStart = pop*2/10;
+        for(int timess = RankingStart ; timess < pop-1 ; timess += 2){ // Uniform
+            uniformCross(item[Score[timess].index],item[Score[timess+1].index]);
+        }
+        // for(int timess = 0 ; timess < pop ; timess++)
+        //     printData(item[timess]);
+            
+        // cout << "\n---------- Fitting Test ----------\n";    
+        for(int timess = 0 ; timess < pop ; timess ++)
+            FittingTest(item[timess],timess);
+        
+        RankingSelection(Score);
+        // for(int timess = 0 ; timess < pop ; timess ++)
+        //     cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
+        // cout << "\n-------------------------------------------------------\n";
+        if(bestone < Score[0].value){
+            bestone = Score[0].value;
+            count = 0;
+        }else{
+            count++;
+        }
+    }
+    cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight << "\nEncode : ";
+    printData(item[Score[0].index]);
+>>>>>>> Stashed changes
     return 0;
 }
