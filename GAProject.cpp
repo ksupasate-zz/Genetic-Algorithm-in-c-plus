@@ -108,7 +108,7 @@ int main(){
     int bestone = -1 , count = 0,gen = 1;
     read_file(&itemN);
     int item[pop][itemN];
-    while(count < 10){
+    while(count < 10000){
         // cout << "Generation : " << gen++ << "\n";
 
         for(int timess = 0 ; timess < pop ; timess ++)
@@ -157,7 +157,11 @@ int main(){
             for(int timess = 0 ; timess < pop ; timess ++)
                 random_choice(item[timess],timess);
     }
+<<<<<<< HEAD
     cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight << "\nEncode : ";
     printData(item[Score[0].index]);
+=======
+    cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight;
+>>>>>>> parent of aca1520 (Last3)
     return 0;
 }
