@@ -3,17 +3,17 @@
 #include <time.h>
 #include <algorithm>
 using namespace std;
-int pop = 500,itemN,MaxW;
+int pop = 1000,itemN,MaxW;
 struct data{
     int value = 0,weight = 0,index = -1;
-}Data[5000],Score[500];
+}Data[5000],Score[1000];
 
 void read_file(int *itemN)
 {
     int sum = 0;
     int x;
     ifstream inFile;
-    inFile.open("Set2.txt");
+    inFile.open("Set1.txt");
 
     if (!inFile) {
         cerr << "Unable to open file datafile.txt";
@@ -31,6 +31,23 @@ void read_file(int *itemN)
     inFile.close();
 }
 
+int rand50()
+{
+    // rand() function will generate odd or even
+    // number with equal probability. If rand()
+    // generates odd number, the function will
+    // return 1 else it will return 0.
+    return rand() & 1;
+}
+ 
+// Random Function to that returns 1 with 75%
+// probability and 0 with 25% probability using
+// Bitwise OR
+bool rand75()
+{
+    return rand50() | rand50();
+}
+
 void random_choice(int *item,int timess){
     srand (timess+time(NULL));
     int count = 0,temp;
@@ -45,17 +62,18 @@ void random_choice(int *item,int timess){
     //     // cout << rand() % 2;
     // }
     int quota=0,luckyNumber;
-    temp = pop/4;
-    while(quota < temp){
+    for(int i = 0 ; i < itemN ; i++){
+        item[i]=0;
+    }
+    while(quota <= MaxW){
         luckyNumber = rand() % itemN;
-        if(item[luckyNumber] == 0){
-            item[luckyNumber] = 1;
-            quota++;
-        }
+        item[luckyNumber] = 1;
+        quota += Data[luckyNumber].weight;
+        
+        // cout << luckyNumber << "\n";
     }
     // cout << "\n";
 }
-
 void printData(int *item){
     for(int i=0 ; i < itemN ; i++)
         cout << item[i];
@@ -153,11 +171,8 @@ int main(){
         }else{
             count++;
         }
-        if(Score[0].value == 0)
-            for(int timess = 0 ; timess < pop ; timess ++)
-                random_choice(item[timess],timess);
     }
-    cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight << "\nEncode : ";
+    cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight << "\n Encode : ";
     printData(item[Score[0].index]);
     return 0;
 }
