@@ -13,7 +13,7 @@ void read_file(int *itemN)
     int sum = 0;
     int x;
     ifstream inFile;
-    inFile.open("Set3.txt");
+    inFile.open("Set2.txt");
 
     if (!inFile) {
         cerr << "Unable to open file datafile.txt";
@@ -34,15 +34,24 @@ void read_file(int *itemN)
 void random_choice(int *item,int timess){
     srand (timess+time(NULL));
     int count = 0,temp;
-    for(int i = 0 ; i < itemN ; i++){
-        temp = rand() % 2;
-        if(count < pop/40){
-            item[i] = temp;
-            count++;
-        }else{
-            item[i] = 0;
+    // for(int i = 0 ; i < itemN ; i++){
+    //     temp = rand() % 2;
+    //     if(count < pop/40){
+    //         item[i] = temp;
+    //         count++;
+    //     }else{
+    //         item[i] = 0;
+    //     }
+    //     // cout << rand() % 2;
+    // }
+    int quota=0,luckyNumber;
+    temp = pop/4;
+    while(quota < temp){
+        luckyNumber = rand() % itemN;
+        if(item[luckyNumber] == 0){
+            item[luckyNumber] = 1;
+            quota++;
         }
-        // cout << rand() % 2;
     }
     // cout << "\n";
 }
