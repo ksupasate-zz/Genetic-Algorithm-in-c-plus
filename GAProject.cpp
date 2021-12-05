@@ -58,14 +58,15 @@ int randGenerate(int start, int end)
     return genenNum(dRandom);
 }
 
-void random(int *item)
+void random(int *item,int divide)
 {
-    int gene = 0;
-
+    int gene = 0,quota = 0;
         for(int j = 0; j < itemN; j++)
+            item[j] = 0;
+        for(int j = 0; j < itemN/divide; j++)
         {
             gene = randGenerate(0, 2);
-            item[j] = gene;
+            item[randGenerate(0,itemN)] = 1; 
             // cout << item[j];
         }
         // cout <<"\n";
@@ -155,25 +156,25 @@ void RankingSelection(data Score[]){
 
 int main(){  
     
-    int bestone = -1 , count = 0,gen = 1;
+    int bestone = -1 , count = 0,gen = 1,divide = 1;
     read_file(&itemN);
     int item[pop][itemN];
-    while(count < 1000){
+    for(int timess = 0 ; timess < pop ; timess ++)
+        random(item[timess],divide);
+    while(count < 1000 || bestone == 0){
         srand (time(NULL)+count);
         // cout << "Generation : " << gen++ << "\n";
-        for(int timess = 0 ; timess < pop ; timess ++)
-            random(item[timess]);
 
         // for(int timess = 0 ; timess < pop ; timess ++)
         //     random_choice(item[timess],timess);
-        cout << "\n---------- Default Data ----------\n";
-        for(int timess = 0 ; timess < pop ; timess ++)
-            printData(item[timess]);
+        // cout << "\n---------- Default Data ----------\n";
+        // for(int timess = 0 ; timess < pop ; timess ++)
+        //     printData(item[timess]);
         // cout << "\n---------- Fitting Test ----------\n";  
         for(int timess = 0 ; timess < pop ; timess ++)
             FittingTest(item[timess],timess);
-        for(int timess = 0 ; timess < pop ; timess ++)
-            cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
+        // for(int timess = 0 ; timess < pop ; timess ++)
+        //     cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
         
         RankingSelection(Score);
         // cout << "\n---------- Ranking Selection ----------\n";
@@ -191,11 +192,6 @@ int main(){
             uniformCross(item[Score[timess].index],item[Score[timess+1].index]);
         }
 
-        for(int timess = 0 ; timess < pop*5/100 ; timess ++){
-            // srand (timess+time(NULL));
-            int temp55 = rand() % pop;
-            random(item[temp55]);
-        }
         // for(int timess = 0 ; timess < pop ; timess++)
         //     printData(item[timess]);
             
@@ -209,11 +205,10 @@ int main(){
         // cout << "\n-------------------------------------------------------\n";
 
         // Mutation
-        // for(int timess = 0 ; timess < pop*5/100 ; timess ++){
-        //     // srand (timess+time(NULL));
-        //     int temp55 = rand() % pop;
-        //     random(item[temp55]);
-        // }
+        for(int timess = itemN-1 ; timess > pop/2 ; timess --){
+            // srand (timess+time(NULL));
+            random(item[Score[timess].index],divide);
+        }
 
         if(bestone < Score[0].value){
             bestone = Score[0].value;
@@ -221,9 +216,9 @@ int main(){
         }else{
             count++;
         }
-
-    cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight << "\nEncode : ";
-    printData(item[Score[0].index]);
+        divide++;
+        cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight << "\nEncode : ";
+        printData(item[Score[0].index]);
+    }
     return 0;
-}
 }
