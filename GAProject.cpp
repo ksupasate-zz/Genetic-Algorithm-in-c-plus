@@ -187,7 +187,7 @@ int main(){
 
         
         // cout << "\n---------- Uniform Cross ----------\n";
-        int RankingStart = pop*5/10;
+        int RankingStart = pop*1/10;
         for(int timess = RankingStart ; timess < pop-1 ; timess += 2){ // Uniform
             uniformCross(item[Score[timess].index],item[Score[timess+1].index]);
         }
@@ -218,7 +218,7 @@ int main(){
         }
         divide++;
         cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight << "\nEncode : ";
-        printData(item[Score[0].index]);
+        // printData(item[Score[0].index]);
     }
     return 0;
 }
