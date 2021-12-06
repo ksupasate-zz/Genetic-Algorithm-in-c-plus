@@ -4,17 +4,17 @@
 #include <algorithm>
 #include <random>
 using namespace std;
-int pop = 3000,itemN,MaxW;
+int pop = 2000,itemN,MaxW;
 struct data{
     int value = 0,weight = 0,index = -1;
-}Data[5000],Score[3000];
+}Data[5000],Score[2000];
 
 void read_file(int *itemN)
 {
     int sum = 0;
     int x;
     ifstream inFile;
-    inFile.open("Set3.txt");
+    inFile.open("Set2.txt");
 
     if (!inFile) {
         cerr << "Unable to open file datafile.txt";
@@ -161,7 +161,7 @@ int main(){
     int item[pop][itemN];
     for(int timess = 0 ; timess < pop ; timess ++)
         random(item[timess],divide);
-    while(count < 1000 || bestone == 0){
+    while(count < 100000 || bestone == 0){
         srand (time(NULL)+count);
         // cout << "Generation : " << gen++ << "\n";
 
@@ -187,7 +187,7 @@ int main(){
 
         
         // cout << "\n---------- Uniform Cross ----------\n";
-        int RankingStart = pop*1/10;
+        int RankingStart = pop*2/10;
         for(int timess = RankingStart ; timess < pop-1 ; timess += 2){ // Uniform
             uniformCross(item[Score[timess].index],item[Score[timess+1].index]);
         }
