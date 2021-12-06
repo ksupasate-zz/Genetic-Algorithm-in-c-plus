@@ -4,17 +4,17 @@
 #include <algorithm>
 #include <random>
 using namespace std;
-int pop = 1000,itemN,MaxW;
+int pop = 3000,itemN,MaxW;
 struct data{
     int value = 0,weight = 0,index = -1;
-}Data[5000],Score[1000];
+}Data[5000],Score[3000];
 
 void read_file(int *itemN)
 {
     int sum = 0;
     int x;
     ifstream inFile;
-    inFile.open("Set1.txt");
+    inFile.open("Set3.txt");
 
     if (!inFile) {
         cerr << "Unable to open file datafile.txt";
@@ -205,7 +205,7 @@ int main(){
         // cout << "\n-------------------------------------------------------\n";
 
         // Mutation
-        for(int timess = itemN-1 ; timess > pop/2 ; timess --){
+        for(int timess = itemN-1 ; timess > pop*5/100 ; timess --){
             // srand (timess+time(NULL));
             random(item[Score[timess].index],divide);
         }
