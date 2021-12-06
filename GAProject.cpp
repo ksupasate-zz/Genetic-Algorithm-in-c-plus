@@ -4,17 +4,17 @@
 #include <algorithm>
 #include <random>
 using namespace std;
-int pop = 1000,itemN,MaxW;
+int pop = 2000,itemN,MaxW;
 struct data{
     int value = 0,weight = 0,index = -1;
-}Data[5000],Score[1000];
+}Data[5000],Score[2000];
 
 void read_file(int *itemN)
 {
     int sum = 0;
     int x;
     ifstream inFile;
-    inFile.open("Set3.txt");
+    inFile.open("Set2.txt");
 
     if (!inFile) {
         cerr << "Unable to open file datafile.txt";
@@ -156,7 +156,7 @@ void RankingSelection(data Score[]){
 
 int main(){  
     
-    int bestone = -1 , count = 0,gen = 1,divide = 2;
+    int bestone = -1 , count = 0,gen = 1,divide = 1;
     read_file(&itemN);
     int item[pop][itemN];
     for(int timess = 0 ; timess < pop ; timess ++)
@@ -193,10 +193,11 @@ int main(){
         }
 
         // Mutation
-        for(int timess = pop ; timess > pop*95/100 ; timess --){
-            // srand (timess+time(NULL));
-            random(item[Score[timess].index],divide/2);
-        }
+        // for(int timess = pop ; timess > pop*95/100 ; timess --){
+        //     cout << itemN << " " << pop*95/100 << "\n";
+        //     // srand (timess+time(NULL));
+        //     random(item[Score[timess].index],divide);
+        // }
 
         // for(int timess = 0 ; timess < pop ; timess++)
         //     printData(item[timess]);
@@ -218,7 +219,9 @@ int main(){
         }else{
             count++;
         }
-        divide++;
+        if(Score[0].weight>MaxW){
+            divide++;
+        }
         cout << "Ans : Value = " << Score[0].value << " Weight = " << Score[0].weight << "\nEncode : ";
         // printData(item[Score[0].index]);
     }
