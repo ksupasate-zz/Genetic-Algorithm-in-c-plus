@@ -4,17 +4,17 @@
 #include <algorithm>
 #include <random>
 using namespace std;
-int pop = 2000,itemN,MaxW;
+int pop = 1000,itemN,MaxW;
 struct data{
     int value = 0,weight = 0,index = -1;
-}Data[5000],Score[2000];
+}Data[5000],Score[1000];
 
 void read_file(int *itemN)
 {
     int sum = 0;
     int x;
     ifstream inFile;
-    inFile.open("Set2.txt");
+    inFile.open("Set3.txt");
 
     if (!inFile) {
         cerr << "Unable to open file datafile.txt";
@@ -156,7 +156,7 @@ void RankingSelection(data Score[]){
 
 int main(){  
     
-    int bestone = -1 , count = 0,gen = 1,divide = 1;
+    int bestone = -1 , count = 0,gen = 1,divide = 2;
     read_file(&itemN);
     int item[pop][itemN];
     for(int timess = 0 ; timess < pop ; timess ++)
@@ -192,6 +192,12 @@ int main(){
             uniformCross(item[Score[timess].index],item[Score[timess+1].index]);
         }
 
+        // Mutation
+        for(int timess = pop ; timess > pop*95/100 ; timess --){
+            // srand (timess+time(NULL));
+            random(item[Score[timess].index],divide/2);
+        }
+
         // for(int timess = 0 ; timess < pop ; timess++)
         //     printData(item[timess]);
             
@@ -204,11 +210,7 @@ int main(){
         //     cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
         // cout << "\n-------------------------------------------------------\n";
 
-        // Mutation
-        for(int timess = itemN-1 ; timess > pop*5/100 ; timess --){
-            // srand (timess+time(NULL));
-            random(item[Score[timess].index],divide);
-        }
+        
 
         if(bestone < Score[0].value){
             bestone = Score[0].value;
@@ -217,7 +219,7 @@ int main(){
             count++;
         }
         divide++;
-        cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight << "\nEncode : ";
+        cout << "Ans : Value = " << Score[0].value << " Weight = " << Score[0].weight << "\nEncode : ";
         // printData(item[Score[0].index]);
     }
     return 0;
