@@ -73,6 +73,21 @@ void random(int *item,int divide)
 
 }
 
+void randomMU(int *item)
+{
+    int mutation_rate = 1;
+    int x = randGenerate(0,101);
+    if(x<mutation_rate){
+        int check = randGenerate(0,itemN);
+        if(item[check] == 1){
+            item[check] = 1;
+        }
+        else{
+            item[check] = 0;
+        }
+    }
+}
+
 void random_choice(int *item,int timess){
     // srand (timess+time(NULL));
     int count = 0,temp;
@@ -193,6 +208,11 @@ int main(){
         }
 
         // Mutation
+        for(int timess = pop-1 ; timess > 0 ; timess--){
+//             srand (timess+time(NULL));
+                randomMU(item[Score[timess].index]);
+//            random(item[Score[timess].index],divide);
+        }
         // for(int timess = pop ; timess > pop*95/100 ; timess --){
         //     cout << itemN << " " << pop*95/100 << "\n";
         //     // srand (timess+time(NULL));
@@ -222,7 +242,8 @@ int main(){
         if(Score[0].weight>MaxW){
             divide++;
         }
-        cout << "Ans : Value = " << Score[0].value << " Weight = " << Score[0].weight << "\nEncode : ";
+        int i = 1;
+        cout << i++ << ".) "<< "Ans : Value = " << Score[0].value << " Weight = " << Score[0].weight << "\nEncode : ";
         // printData(item[Score[0].index]);
     }
     return 0;
