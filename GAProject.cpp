@@ -3,6 +3,7 @@
 #include <time.h>
 #include <algorithm>
 #include <random>
+#include <vector>
 //using namespace std;
 int pop = 1000,itemN,MaxW;
 struct data{
@@ -29,7 +30,6 @@ void read_file(int *itemN)
     // }
     inFile.close();
 }
-
 int rand50()
 {
     // rand() function will generate odd or even
@@ -172,6 +172,7 @@ int main(){
     read_file(&itemN);
     int item[pop][itemN];
     int divide = 1;
+    std::vector <long> Graph;
     for(int timess = 0 ; timess < pop ; timess ++)
         random(item[timess],divide);
     while(count < 10000 || bestone == 0){
@@ -243,8 +244,16 @@ int main(){
         }
         else divide = 1;
         std::cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight << "\nEncode : ";
+        Graph.push_back(bestone);
         // printData(item[Score[0].index]);
     }
-    std::cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight << "\nEncode : ";
+    std::cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight << "\n";
+    // Write File
+    std::ofstream myfile("testWrite.txt");
+    long int wowza=1;
+    for(auto i=0; i < Graph.size(); i++)
+        myfile << wowza++ << " " << Graph[i] << "\n";
+    myfile.close();
+
     return 0;
 }
