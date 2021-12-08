@@ -3,22 +3,20 @@
 #include <time.h>
 #include <algorithm>
 #include <random>
-using namespace std;
-int pop = 2000,itemN,MaxW;
+//using namespace std;
+int pop = 1000,itemN,MaxW;
 struct data{
     int value = 0,weight = 0,index = -1;
-}Data[5000],Score[2000];
+}Data[5000],Score[1000];
 
 void read_file(int *itemN)
 {
-    int sum = 0;
-    int x;
-    ifstream inFile;
-    inFile.open("Set2.txt");
+    std::ifstream inFile;
+    inFile.open("Set1.txt");
 
     if (!inFile) {
-        cerr << "Unable to open file datafile.txt";
-        exit(1);   // call system to stop
+        std::cerr << "Unable to open file datafile.txt";
+        std::exit(1);   // call system to stop
     }
     inFile >> *itemN >> MaxW;
     int i = 0;
@@ -49,24 +47,24 @@ bool rand75()
     return rand50() | rand50();
 }
 
-default_random_engine dRandom;
+std::default_random_engine dRandom;
 
 int randGenerate(int start, int end)
 {
-    uniform_int_distribution<int> genenNum(start, end - 1);
+    std::uniform_int_distribution<int> genenNum(start, end - 1);
 
     return genenNum(dRandom);
 }
 
 void random(int *item,int divide)
 {
-    int gene = 0,quota = 0;
+    int gene = 0;
         for(int j = 0; j < itemN; j++)
             item[j] = 0;
         for(int j = 0; j < itemN/divide; j++)
         {
             gene = randGenerate(0, 2);
-            item[randGenerate(0,itemN)] = 1; 
+            item[randGenerate(0,itemN)] = 1;
             // cout << item[j];
         }
         // cout <<"\n";
@@ -75,22 +73,21 @@ void random(int *item,int divide)
 
 void randomMU(int *item)
 {
-    int mutation_rate = 1;
+    int mutation_rate = 5;
     int x = randGenerate(0,101);
     if(x<mutation_rate){
         int check = randGenerate(0,itemN);
         if(item[check] == 1){
-            item[check] = 1;
+            item[check] = 0;
         }
         else{
-            item[check] = 0;
+            item[check] = 1;
         }
     }
 }
 
 void random_choice(int *item,int timess){
     // srand (timess+time(NULL));
-    int count = 0,temp;
     // for(int i = 0 ; i < itemN ; i++){
     //     temp = rand() % 2;
     //     if(count < pop/40){
@@ -117,8 +114,8 @@ void random_choice(int *item,int timess){
 }
 void printData(int *item){
     for(int i=0 ; i < itemN ; i++)
-        cout << item[i];
-    cout << "\n";
+        std::cout << item[i];
+    std::cout << "\n";
 }
 
 void uniformCross(int *item,int *item2){
@@ -149,7 +146,7 @@ void FittingTest(int *item,int n){
 //     for(int i = 0; i < pop; i++){
 //         for(int j = 0; j < itemN; j++){
 //             if()
-//         }    
+//         }
 //     }
 // }
 
@@ -160,7 +157,7 @@ bool compareTwoPop(data a, data b){
 }
 
 void RankingSelection(data Score[]){
-    sort(Score, Score + pop , compareTwoPop);
+    std::sort(Score, Score + pop , compareTwoPop);
 }
 
 // void Mutation(int *item){
@@ -169,14 +166,15 @@ void RankingSelection(data Score[]){
 //      random_choice(item[temp],temp);
 // }
 
-int main(){  
+int main(){
     
-    int bestone = -1 , count = 0,gen = 1,divide = 1;
+    int bestone = -1,bestweight = -1 , count = 0;
     read_file(&itemN);
     int item[pop][itemN];
+    int divide = 1;
     for(int timess = 0 ; timess < pop ; timess ++)
         random(item[timess],divide);
-    while(count < 100000 || bestone == 0){
+    while(count < 10 || bestone == 0){
         srand (time(NULL)+count);
         // cout << "Generation : " << gen++ << "\n";
 
@@ -185,7 +183,7 @@ int main(){
         // cout << "\n---------- Default Data ----------\n";
         // for(int timess = 0 ; timess < pop ; timess ++)
         //     printData(item[timess]);
-        // cout << "\n---------- Fitting Test ----------\n";  
+        // cout << "\n---------- Fitting Test ----------\n";
         for(int timess = 0 ; timess < pop ; timess ++)
             FittingTest(item[timess],timess);
         // for(int timess = 0 ; timess < pop ; timess ++)
@@ -196,33 +194,29 @@ int main(){
         // for(int timess = 0 ; timess < pop ; timess ++)
         //     cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
         
-        // cout << "\n---------- Original Ranking -----------\n"; 
+        // cout << "\n---------- Original Ranking -----------\n";
         // for(int timess = 0 ; timess < pop ; timess ++)
         //     printData(item[timess]);
 
         
         // cout << "\n---------- Uniform Cross ----------\n";
-        int RankingStart = pop*2/10;
+        int RankingStart = pop*1/10;
         for(int timess = RankingStart ; timess < pop-1 ; timess += 2){ // Uniform
             uniformCross(item[Score[timess].index],item[Score[timess+1].index]);
         }
 
         // Mutation
-        for(int timess = pop-1 ; timess > 0 ; timess--){
+        
+        for(int timess = pop-1 ; timess > pop*70/100 ; timess--){
 //             srand (timess+time(NULL));
-                randomMU(item[Score[timess].index]);
+            randomMU(item[Score[timess].index]);
 //            random(item[Score[timess].index],divide);
         }
-        // for(int timess = pop ; timess > pop*95/100 ; timess --){
-        //     cout << itemN << " " << pop*95/100 << "\n";
-        //     // srand (timess+time(NULL));
-        //     random(item[Score[timess].index],divide);
-        // }
-
+        
         // for(int timess = 0 ; timess < pop ; timess++)
         //     printData(item[timess]);
             
-        // cout << "\n---------- Fitting Test ----------\n";    
+        // cout << "\n---------- Fitting Test ----------\n";
         for(int timess = 0 ; timess < pop ; timess ++)
             FittingTest(item[timess],timess);
         
@@ -231,20 +225,26 @@ int main(){
         //     cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
         // cout << "\n-------------------------------------------------------\n";
 
-        
-
         if(bestone < Score[0].value){
             bestone = Score[0].value;
             count = 0;
-        }else{
+        }
+        else if (bestone == Score[0].value){
+            if(bestweight < Score[0].weight){
+                bestweight = Score[0].weight;
+                count = 0;
+            }
+        }
+        else{
             count++;
         }
-        if(Score[0].weight>MaxW){
+        if(Score[0].weight > MaxW){
             divide++;
         }
-        int i = 1;
-        cout << i++ << ".) "<< "Ans : Value = " << Score[0].value << " Weight = " << Score[0].weight << "\nEncode : ";
+        else divide = 1;
+        std::cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight << "\nEncode : ";
         // printData(item[Score[0].index]);
     }
+    std::cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight << "\nEncode : ";
     return 0;
 }
