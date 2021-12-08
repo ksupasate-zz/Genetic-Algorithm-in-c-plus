@@ -12,7 +12,7 @@ struct data{
 void read_file(int *itemN)
 {
     std::ifstream inFile;
-    inFile.open("Set1.txt");
+    inFile.open("Example Set.txt");
 
     if (!inFile) {
         std::cerr << "Unable to open file datafile.txt";
@@ -174,7 +174,7 @@ int main(){
     int divide = 1;
     for(int timess = 0 ; timess < pop ; timess ++)
         random(item[timess],divide);
-    while(count < 10 || bestone == 0){
+    while(count < 10000 || bestone == 0){
         srand (time(NULL)+count);
         // cout << "Generation : " << gen++ << "\n";
 
@@ -200,7 +200,7 @@ int main(){
 
         
         // cout << "\n---------- Uniform Cross ----------\n";
-        int RankingStart = pop*1/10;
+        int RankingStart = pop*1/100;
         for(int timess = RankingStart ; timess < pop-1 ; timess += 2){ // Uniform
             uniformCross(item[Score[timess].index],item[Score[timess+1].index]);
         }
@@ -229,12 +229,12 @@ int main(){
             bestone = Score[0].value;
             count = 0;
         }
-        else if (bestone == Score[0].value){
-            if(bestweight < Score[0].weight){
-                bestweight = Score[0].weight;
-                count = 0;
-            }
-        }
+//        else if (bestone == Score[0].value){
+//            if(bestweight < Score[0].weight){
+//                bestweight = Score[0].weight;
+//                count = 0;
+//            }
+//        }
         else{
             count++;
         }
