@@ -112,7 +112,7 @@ void RankingSelection(data Score[]){
 }
 
 int main(){
-    int bestofthebest=-1,bestoftheWeight=9999999999;
+    int bestofthebest=-1,bestoftheWeight=999999999;
     for(int round = 1 ; round <= 5 ; round++){
         int bestone = -1,bestweight = -1 , count = 0,bestTemp;
         read_file(&itemN);
@@ -173,11 +173,13 @@ int main(){
             genShow++;
             Graph.push_back(bestone);
         }
-        std::cout << "   Finished : " << genShow << " | Value = " << bestone << " Weight = " << Score[0].weight << "\n";
-        if(bestofthebest < bestone)
+        std::cout << "   Finished!!! \n   Gen : " << genShow << " | Value = " << bestone << " Weight = " << Score[0].weight << "\n";
+
+        if(bestofthebest < bestone){
             bestofthebest = bestone;
-        if(bestoftheWeight > Score[0].weight)
             bestoftheWeight = Score[0].weight;
+        }
+            
         std::cout << "===========================================\n";
     }
     std::cout << "\nFinish!!!\nValue = " << bestofthebest << " Weight = " << bestoftheWeight << "\n";
