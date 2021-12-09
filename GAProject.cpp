@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <random>
 #include <vector>
-//using namespace std;
 int pop = 1000,itemN,MaxW;
 struct data{
     int value = 0,weight = 0,index = -1;
@@ -13,7 +12,7 @@ struct data{
 void read_file(int *itemN)
 {
     std::ifstream inFile;
-    inFile.open("Example Set.txt");
+    inFile.open("Set1.txt");
 
     if (!inFile) {
         std::cerr << "Unable to open file datafile.txt";
@@ -25,26 +24,7 @@ void read_file(int *itemN)
         inFile >> Data[i].value >> Data[i].weight;
         i++;
     }
-    // for(i = 0; i < *itemN; i++){
-    //     cout << Data[i].value << " " << Data[i].weight << "\n";
-    // }
     inFile.close();
-}
-int rand50()
-{
-    // rand() function will generate odd or even
-    // number with equal probability. If rand()
-    // generates odd number, the function will
-    // return 1 else it will return 0.
-    return rand() & 1;
-}
- 
-// Random Function to that returns 1 with 75%
-// probability and 0 with 25% probability using
-// Bitwise OR
-bool rand75()
-{
-    return rand50() | rand50();
 }
 
 std::default_random_engine dRandom;
@@ -56,19 +36,12 @@ int randGenerate(int start, int end)
     return genenNum(dRandom);
 }
 
-void random(int *item,int divide)
+void random(int *item)
 {
-    int gene = 0;
-        for(int j = 0; j < itemN; j++)
-            item[j] = 0;
-        for(int j = 0; j < itemN/divide; j++)
-        {
-            gene = randGenerate(0, 2);
-            item[randGenerate(0,itemN)] = 1;
-            // cout << item[j];
-        }
-        // cout <<"\n";
-
+    for(int j = 0; j < itemN; j++)
+        item[j] = 0;
+    for(int j = 0; j < itemN; j++)
+        item[randGenerate(0,itemN)] = 1;
 }
 
 void randomMU(int *item)
@@ -77,40 +50,25 @@ void randomMU(int *item)
     int x = randGenerate(0,101);
     if(x<mutation_rate){
         int check = randGenerate(0,itemN);
-        if(item[check] == 1){
+        if(item[check] == 1)
             item[check] = 0;
-        }
-        else{
+        else
             item[check] = 1;
-        }
     }
 }
 
 void random_choice(int *item,int timess){
-    // srand (timess+time(NULL));
-    // for(int i = 0 ; i < itemN ; i++){
-    //     temp = rand() % 2;
-    //     if(count < pop/40){
-    //         item[i] = temp;
-    //         count++;
-    //     }else{
-    //         item[i] = 0;
-    //     }
-    //     // cout << rand() % 2;
-    // }
     int quota=0,luckyNumber;
-    for(int i = 0 ; i < itemN ; i++){
+
+    for(int i = 0 ; i < itemN ; i++)
         item[i]=0;
-    }
+
     for(quota=0 ; quota < itemN/2 ; quota++){
         luckyNumber = rand() % itemN;
-        if(item[luckyNumber]==1){
+        if(item[luckyNumber]==1)
             quota--;
-        }
         item[luckyNumber] = 1;
-        // cout << luckyNumber << "\n";
     }
-    // cout << "\n";
 }
 void printData(int *item){
     for(int i=0 ; i < itemN ; i++)
@@ -142,13 +100,6 @@ void FittingTest(int *item,int n){
     if(Score[n].weight > MaxW)
         Score[n].value = 0;
 }
-// void fitness_test(){
-//     for(int i = 0; i < pop; i++){
-//         for(int j = 0; j < itemN; j++){
-//             if()
-//         }
-//     }
-// }
 
 bool compareTwoPop(data a, data b){
     if(a.value == b.value)
@@ -160,99 +111,77 @@ void RankingSelection(data Score[]){
     std::sort(Score, Score + pop , compareTwoPop);
 }
 
-// void Mutation(int *item){
-//      srand (time(NULL));
-//      int temp = rand() % pop;
-//      random_choice(item[temp],temp);
-// }
-
 int main(){
     
-    int bestone = -1,bestweight = -1 , count = 0;
+    int bestone = -1,bestweight = -1 , count = 0,bestTemp;
     read_file(&itemN);
     int item[pop][itemN];
     int divide = 1;
+    long int genShow=1;
     std::vector <long> Graph;
-    for(int timess = 0 ; timess < pop ; timess ++)
-        random(item[timess],divide);
-    while(count < 10000 || bestone == 0){
-        srand (time(NULL)+count);
-        // cout << "Generation : " << gen++ << "\n";
+    std::cout << "\n===========================================================\n";
 
-        // for(int timess = 0 ; timess < pop ; timess ++)
-        //     random_choice(item[timess],timess);
-        // cout << "\n---------- Default Data ----------\n";
-        // for(int timess = 0 ; timess < pop ; timess ++)
-        //     printData(item[timess]);
-        // cout << "\n---------- Fitting Test ----------\n";
+    for(int timess = 0 ; timess < pop ; timess ++)
+        random(item[timess]);
+
+    while(count < 10000 || bestone == 0){
+
+        bestTemp = bestone;
+        srand (time(NULL)+count);
+
+        // Fitting Test
         for(int timess = 0 ; timess < pop ; timess ++)
             FittingTest(item[timess],timess);
-        // for(int timess = 0 ; timess < pop ; timess ++)
-        //     cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
-        
-        RankingSelection(Score);
-        // cout << "\n---------- Ranking Selection ----------\n";
-        // for(int timess = 0 ; timess < pop ; timess ++)
-        //     cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
-        
-        // cout << "\n---------- Original Ranking -----------\n";
-        // for(int timess = 0 ; timess < pop ; timess ++)
-        //     printData(item[timess]);
 
-        
-        // cout << "\n---------- Uniform Cross ----------\n";
+        // Ranking Selection
+        RankingSelection(Score);
+
+        // Uniform Cross
         int RankingStart = pop*1/100;
         for(int timess = RankingStart ; timess < pop-1 ; timess += 2){ // Uniform
             uniformCross(item[Score[timess].index],item[Score[timess+1].index]);
         }
 
         // Mutation
-        
         for(int timess = pop-1 ; timess > pop*70/100 ; timess--){
-//             srand (timess+time(NULL));
             randomMU(item[Score[timess].index]);
-//            random(item[Score[timess].index],divide);
         }
-        
-        // for(int timess = 0 ; timess < pop ; timess++)
-        //     printData(item[timess]);
-            
-        // cout << "\n---------- Fitting Test ----------\n";
+
+        // Fitting Test
         for(int timess = 0 ; timess < pop ; timess ++)
             FittingTest(item[timess],timess);
-        
-        RankingSelection(Score);
-        // for(int timess = 0 ; timess < pop ; timess ++)
-        //     cout << Score[timess].index+1 << ") Value : " << Score[timess].value << " Weight : " << Score[timess].weight << "\n";
-        // cout << "\n-------------------------------------------------------\n";
 
+        // Ranking Selection
+        RankingSelection(Score);
         if(bestone < Score[0].value){
             bestone = Score[0].value;
             count = 0;
-        }
-//        else if (bestone == Score[0].value){
-//            if(bestweight < Score[0].weight){
-//                bestweight = Score[0].weight;
-//                count = 0;
-//            }
-//        }
-        else{
+        }else
             count++;
-        }
-        if(Score[0].weight > MaxW){
+
+        if(Score[0].weight > MaxW)
             divide++;
-        }
-        else divide = 1;
-        std::cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight << "\nEncode : ";
+        else 
+            divide = 1;
+
+        if(bestone != bestTemp)
+                std::cout << "Gen : " << genShow << " | Value = " << bestone << " Weight = " << Score[0].weight << "\n";
+        else if(count % 1000 == 0)
+            std::cout << ".\n";
+
+        genShow++;
         Graph.push_back(bestone);
-        // printData(item[Score[0].index]);
     }
-    std::cout << "Ans : Value = " << bestone << " Weight = " << Score[0].weight << "\n";
+
+    std::cout << "\nFinish!!!\nAns : Value = " << bestone << " Weight = " << Score[0].weight << "\nEncode : ";
+    printData(item[Score[0].index]);
+
     // Write File
-    std::ofstream myfile("testWrite.txt");
-    long int wowza=1;
+    std::ofstream myfile("Result.txt");
+    long int generation=1;
     for(auto i=0; i < Graph.size(); i++)
-        myfile << wowza++ << " " << Graph[i] << "\n";
+        if(Graph[i] != Graph[i+1])
+            myfile << generation++ << " " << Graph[i] << "\n";
     myfile.close();
 
     return 0;
