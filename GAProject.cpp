@@ -112,77 +112,74 @@ void RankingSelection(data Score[]){
 }
 
 int main(){
-    
-    int bestone = -1,bestweight = -1 , count = 0,bestTemp;
-    read_file(&itemN);
-    int item[pop][itemN];
-    int divide = 1;
-    long int genShow=1;
-    std::vector <long> Graph;
-    std::cout << "\n===========================================================\n";
+    int bestofthebest=-1,bestoftheWeight=9999999999;
+    for(int round = 1 ; round <= 5 ; round++){
+        int bestone = -1,bestweight = -1 , count = 0,bestTemp;
+        read_file(&itemN);
+        int item[pop][itemN];
+        int divide = 1;
+        long int genShow=1;
+        std::vector <long> Graph;
+        std::cout << "Round : " <<round << "\n===========================================\n";
 
-    for(int timess = 0 ; timess < pop ; timess ++)
-        random(item[timess]);
-
-    while(count < 10000 || bestone == 0){
-
-        bestTemp = bestone;
-        srand (time(NULL)+count);
-
-        // Fitting Test
         for(int timess = 0 ; timess < pop ; timess ++)
-            FittingTest(item[timess],timess);
+            random(item[timess]);
 
-        // Ranking Selection
-        RankingSelection(Score);
+        while(count < 10000 || bestone == 0){
 
-        // Uniform Cross
-        int RankingStart = pop*1/100;
-        for(int timess = RankingStart ; timess < pop-1 ; timess += 2){ // Uniform
-            uniformCross(item[Score[timess].index],item[Score[timess+1].index]);
+            bestTemp = bestone;
+            srand (time(NULL)+count);
+
+            // Fitting Test
+            for(int timess = 0 ; timess < pop ; timess ++)
+                FittingTest(item[timess],timess);
+
+            // Ranking Selection
+            RankingSelection(Score);
+
+            // Uniform Cross
+            int RankingStart = pop*1/100;
+            for(int timess = RankingStart ; timess < pop-1 ; timess += 2){ // Uniform
+                uniformCross(item[Score[timess].index],item[Score[timess+1].index]);
+            }
+
+            // Mutation
+            for(int timess = pop-1 ; timess > pop*70/100 ; timess--){
+                randomMU(item[Score[timess].index]);
+            }
+
+            // Fitting Test
+            for(int timess = 0 ; timess < pop ; timess ++)
+                FittingTest(item[timess],timess);
+
+            // Ranking Selection
+            RankingSelection(Score);
+            if(bestone < Score[0].value){
+                bestone = Score[0].value;
+                count = 0;
+            }else
+                count++;
+
+            if(Score[0].weight > MaxW)
+                divide++;
+            else 
+                divide = 1;
+
+            if(bestone != bestTemp)
+                    std::cout << "   Gen : " << genShow << " | Value = " << bestone << " Weight = " << Score[0].weight << "\n";
+            else if(count % 1000 == 0)
+                std::cout << "   .\n";
+
+            genShow++;
+            Graph.push_back(bestone);
         }
-
-        // Mutation
-        for(int timess = pop-1 ; timess > pop*70/100 ; timess--){
-            randomMU(item[Score[timess].index]);
-        }
-
-        // Fitting Test
-        for(int timess = 0 ; timess < pop ; timess ++)
-            FittingTest(item[timess],timess);
-
-        // Ranking Selection
-        RankingSelection(Score);
-        if(bestone < Score[0].value){
-            bestone = Score[0].value;
-            count = 0;
-        }else
-            count++;
-
-        if(Score[0].weight > MaxW)
-            divide++;
-        else 
-            divide = 1;
-
-        if(bestone != bestTemp)
-                std::cout << "Gen : " << genShow << " | Value = " << bestone << " Weight = " << Score[0].weight << "\n";
-        else if(count % 1000 == 0)
-            std::cout << ".\n";
-
-        genShow++;
-        Graph.push_back(bestone);
+        std::cout << "   Finished : " << genShow << " | Value = " << bestone << " Weight = " << Score[0].weight << "\n";
+        if(bestofthebest < bestone)
+            bestofthebest = bestone;
+        if(bestoftheWeight > Score[0].weight)
+            bestoftheWeight = Score[0].weight;
+        std::cout << "===========================================\n";
     }
-
-    std::cout << "\nFinish!!!\nAns : Value = " << bestone << " Weight = " << Score[0].weight << "\nEncode : ";
-    printData(item[Score[0].index]);
-
-    // Write File
-    std::ofstream myfile("Result.txt");
-    long int generation=1;
-    for(auto i=0; i < Graph.size(); i++)
-        if(Graph[i] != Graph[i+1])
-            myfile << generation++ << " " << Graph[i] << "\n";
-    myfile.close();
-
+    std::cout << "\nFinish!!!\nValue = " << bestofthebest << " Weight = " << bestoftheWeight << "\n";
     return 0;
 }
