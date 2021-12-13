@@ -57,19 +57,6 @@ void randomMU(int *item)
     }
 }
 
-void random_choice(int *item,int timess){
-    int quota=0,luckyNumber;
-
-    for(int i = 0 ; i < itemN ; i++)
-        item[i]=0;
-
-    for(quota=0 ; quota < itemN/2 ; quota++){
-        luckyNumber = rand() % itemN;
-        if(item[luckyNumber]==1)
-            quota--;
-        item[luckyNumber] = 1;
-    }
-}
 void printData(int *item){
     for(int i=0 ; i < itemN ; i++)
         std::cout << item[i];
