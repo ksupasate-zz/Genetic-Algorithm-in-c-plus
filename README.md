@@ -1,2 +1,2 @@
 # CPE212Project
-Genetic Algorithm 
+Genetic Algorithm Project
